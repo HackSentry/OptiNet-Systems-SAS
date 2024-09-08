@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Optinet Systems SAS</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f4f9;
+            position: relative;
+            overflow: auto;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('file:///C:/Users/admin/OneDrive/Descargas/WhatsApp%20Image%202024-09-01%20at%2011.38.26%20PM.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: moveBackground 30s linear infinite;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        @keyframes moveBackground {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: 100% 100%;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes moveLogos {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(20px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes textSlideIn {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header {
+            background-color: #000;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 1.5s ease-in-out;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00bcd4;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            flex: 1;
+            animation: fadeInDown 1.5s ease-in-out 0.3s forwards;
+        }
+
+        .logo-left, .logo-right {
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: moveLogos 10s linear infinite;
+        }
+
+        .logo-left {
+            background-image: url('file:///C:/Users/admin/OneDrive/Descargas/WhatsApp%20Image%202024-09-01%20at%2011.38.26%20PM.jpeg');
+        }
+
+        .logo-right {
+            background-image: url('file:///C:/Users/admin/OneDrive/Descargas/WhatsApp%20Image%202024-09-01%20at%2011.38.26%20PM.jpeg');
+        }
+
+        nav {
+            text-align: center;
+            padding: 1rem;
+            background-color: #282c34;
+        }
+
+        nav a {
+            color: #61dafb;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            animation: textSlideIn 1s ease-out;
+        }
+
+        nav a:hover {
+            color: #21a1f1;
+        }
+
+        section {
+            margin: 2rem auto;
+            padding: 1rem;
+            max-width: 1200px;
+            background: transparent;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            animation: fadeInUp 1.5s ease-in-out 0.3s forwards;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+            color: #00bcd4;
+        }
+
+        .content {
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-in-out 0.6s forwards;
+        }
+
+        p {
+            font-family: 'Lato', sans-serif;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        ul {
+            list-style-type: disc;
+            list-style-position: inside;
+            padding-left: 0;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #20232a;
+            color: #61dafb;
+            padding: 1rem;
+            margin-top: 20px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        .btn-contact {
+            display: inline-block;
+            background-color: #61dafb;
+            color: #20232a;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #61dafb;
+        }
+
+        .btn-contact:hover {
+            background-color: #21a1f1;
+            color: #ffffff;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-left"></div>
+        <h1>Optinet Systems SAS</h1>
+        <div class="logo-right"></div>
+    </header>
+
+    <nav>
+        <a href="#quienes-somos">¿Quiénes somos?</a>
+        <a href="#mision-vision">Misión y Visión</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#contacto">Contáctanos</a>
+    </nav>
+
+    <section id="quienes-somos">
+        <div class="section-title">
+            <i class="fas fa-users"></i>
+            <h2>¿Quiénes somos?</h2>
+        </div>
+        <div class="content">
+            <p>En <strong>Optinet Systems SAS</strong>, somos una empresa líder especializada en el montaje de cableado eléctrico y físico para empresas de todos los sectores. Con años de experiencia, ofrecemos soluciones eficientes adaptadas a las necesidades de cada uno de nuestros clientes.</p>
+            <p>Nos conformamos por un equipo de profesionales altamente capacitados en la instalación de infraestructuras eléctricas y de cableado. Desde pequeñas oficinas hasta grandes industrias, estamos preparados para manejar proyectos de cualquier magnitud.</p>
+        </div>
+    </section>
+
+    <section id="mision-vision">
+        <div class="section-title">
+            <i class="fas fa-bullseye"></i>
+            <h2>Nuestra Misión y Visión</h2>
+        </div>
+        <div class="content">
+            <p><strong>Misión:</strong> Brindar soluciones integrales de cableado eléctrico y físico que contribuyan al crecimiento y la eficiencia de las empresas, garantizando calidad, seguridad y personalización en cada proyecto.</p>
+            <p><strong>Visión:</strong> Ser reconocidos como la empresa líder en el sector de instalaciones eléctricas y de cableado en el país, destacándonos por nuestra innovación, compromiso y excelencia en cada proyecto, con un enfoque sostenible y a largo plazo.</p>
+        </div>
+    </section>
+
+    <section id="como-trabajamos">
+        <div class="section-title">
+            <i class="fas fa-cogs"></i>
+            <h2>¿Cómo trabajamos?</h2>
+        </div>
+        <div class="content">
+            <p>Nos enfocamos en proporcionar un servicio de calidad, cumpliendo con los más altos estándares técnicos y de seguridad, mientras nos ajustamos a los plazos y presupuestos de nuestros clientes. Sabemos que cada empresa tiene sus propias necesidades, por lo que personalizamos nuestros servicios para ofrecer soluciones a medida.</p>
+            <ul>
+                <li><strong>Diagnóstico personalizado</strong>: Evaluamos las instalaciones para diseñar la mejor estrategia.</li>
+                <li><strong>Soluciones integrales</strong>: Nos encargamos de todo el proceso, desde planificación hasta pruebas finales.</li>
+                <li><strong>Ajuste a tu bolsillo</strong>: Ofrecemos precios competitivos sin comprometer la calidad.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="servicios">
+        <div class="section-title">
+            <i class="fas fa-cogs"></i>
+            <h2>Servicios que ofrecemos</h2>
+        </div>
+        <div class="content">
+            <ul>
+                <li>Instalación de cableado eléctrico industrial y comercial.</li>
+                <li>Cableado estructurado para redes de telecomunicaciones.</li>
+                <li>Mantenimiento y optimización de sistemas eléctricos.</li>
+                <li>Soluciones de infraestructura para empresas de cualquier sector.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <div class="section-title">
+            <i class="fas fa-envelope"></i>
+            <h2>Contáctanos</h2>
+        </div>
+        <div class="content">
+            <p>Estamos listos para asesorarte y trabajar en conjunto para el éxito de tu proyecto. Llámanos o escríbenos para obtener una cotización personalizada.</p>
+            <div class="button-container">
+                <a class="btn-contact" href="mailto:info@optinetsystems.com">Contáctanos por Email</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Optinet Systems SAS. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
