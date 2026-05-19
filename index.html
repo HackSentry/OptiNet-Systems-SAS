@@ -1,331 +1,1086 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Optinet Systems SAS</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Lato', sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            background-color: #f4f4f9;
-            position: relative;
-            overflow: auto;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mi Plan">
+<meta name="theme-color" id="themeColor" content="#0d0d0f">
+<title>Mi Plan Semanal</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+[data-theme="dark"] {
+  --bg:#0f0f12; --surface:#1a1a20; --card:#222228;
+  --border:#2e2e3a; --text:#eeeef5; --muted:#70708a; --submuted:#48485e;
+  --accent:#c8f135; --accent2:#ff6b35; --accent3:#35d4f1; --purple:#b47fff;
+  --success:#4ade80; --warning:#fbbf24;
+  --glow1:rgba(200,241,53,0.04); --glow2:rgba(53,212,241,0.04);
+}
+[data-theme="light"] {
+  --bg:#f2f4f8; --surface:#ffffff; --card:#f7f9fc;
+  --border:#e0e4ec; --text:#111827; --muted:#6b7280; --submuted:#9ca3af;
+  --accent:#4d8c00; --accent2:#c94010; --accent3:#0284c7; --purple:#7c3aed;
+  --success:#15803d; --warning:#b45309;
+  --glow1:rgba(77,140,0,0.04); --glow2:rgba(2,132,199,0.04);
+}
 
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('file:///C:/Users/admin/OneDrive/Descargas/WhatsApp%20Image%202024-09-01%20at%2011.38.26%20PM.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            animation: moveBackground 30s linear infinite;
-            z-index: -1;
-            opacity: 0.2;
-        }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:'Syne',sans-serif; min-height:100vh;
+  padding:0;
+  background-image:radial-gradient(ellipse at 20% 10%,var(--glow1) 0%,transparent 60%),
+                   radial-gradient(ellipse at 80% 90%,var(--glow2) 0%,transparent 60%);
+  transition:background 0.3s,color 0.3s;
+}
 
-        @keyframes moveBackground {
-            from {
-                background-position: 0 0;
-            }
-            to {
-                background-position: 100% 100%;
-            }
-        }
+/* ── WRAPPER ── */
+.wrapper{max-width:480px;margin:0 auto;padding:16px 16px 40px;}
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+/* ── TOP BAR ── */
+.top-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:20px;
+}
+.app-logo{font-size:0.75rem;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+.theme-btn{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 14px;border-radius:20px;
+  border:1px solid var(--border);background:var(--surface);
+  color:var(--text);font-family:'Space Mono',monospace;
+  font-size:0.62rem;letter-spacing:1px;cursor:pointer;
+  transition:all 0.2s;text-transform:uppercase;white-space:nowrap;
+}
+.theme-btn:active{transform:scale(0.97);}
+.theme-icon{font-size:1rem;}
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+/* ── HEADER ── */
+.header{
+  text-align:center;margin-bottom:22px;padding:20px 0 20px;
+  border-bottom:1px solid var(--border);position:relative;
+}
+.header::after{
+  content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);
+  width:48px;height:2px;background:var(--accent);border-radius:2px;
+}
+.header h1{font-size:2.6rem;font-weight:800;letter-spacing:-1px;line-height:1.05;}
+.header h1 span{color:var(--accent);}
+.header p{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px;}
 
-        @keyframes moveLogos {
-            0% {
-                transform: translateX(0);
-            }
-            50% {
-                transform: translateX(20px);
-            }
-            100% {
-                transform: translateX(0);
-            }
-        }
+/* ── INSTALL BANNER ── */
+.install-banner{
+  display:none;align-items:center;gap:12px;
+  background:var(--surface);border:1.5px solid var(--accent);
+  border-radius:14px;padding:14px 16px;margin-bottom:16px;
+  cursor:pointer;transition:all 0.2s;
+}
+.install-banner:active{transform:scale(0.98);}
+.install-icon{font-size:1.8rem;flex-shrink:0;}
+.install-txt{flex:1;}
+.install-title{font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:2px;}
+.install-sub{font-size:0.78rem;color:var(--muted);line-height:1.45;}
+.install-arrow{font-size:1.3rem;color:var(--accent);flex-shrink:0;}
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
+/* ── WEEK PANEL ── */
+.week-panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px;}
+.week-dots{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px;}
+.dot-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.dot-lbl{font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-transform:uppercase;}
+.dot-c{
+  width:40px;height:40px;border-radius:50%;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;
+  cursor:pointer;transition:all 0.2s;color:var(--muted);
+}
+.dot-c:active{transform:scale(0.92);}
+.dot-c.today{border-color:var(--accent);color:var(--accent);}
+.dot-c.good{background:var(--success);border-color:var(--success);color:#000;}
+.dot-c.ok{background:var(--warning);border-color:var(--warning);color:#000;}
+.dot-c.bad{background:var(--accent2);border-color:var(--accent2);color:#fff;}
 
-        @keyframes textSlideIn {
-            from {
-                transform: translateY(-10px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 14px;text-align:center;}
+.stat-n{font-size:2.2rem;font-weight:800;color:var(--accent);display:block;line-height:1;}
+.stat-l{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:5px;display:block;}
 
-        header {
-            background-color: #000;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #fff;
-            position: relative;
-            z-index: 1;
-            animation: fadeInDown 1.5s ease-in-out;
-        }
+/* ── NAV TABS ── */
+.nav{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:4px;
+  margin-bottom:20px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:6px;
+}
+.nav-btn{
+  padding:10px 2px;border-radius:9px;
+  border:none;background:transparent;
+  color:var(--muted);font-family:'Space Mono',monospace;
+  font-size:0.6rem;cursor:pointer;transition:all 0.2s;
+  letter-spacing:0;text-transform:uppercase;text-align:center;
+  font-weight:700;
+}
+.nav-btn:active{transform:scale(0.95);}
+.nav-btn.active{background:var(--accent);color:#000;font-weight:800;}
+.nav-btn.weekend{color:rgba(255,107,53,0.7);}
+.nav-btn.weekend.active{background:var(--accent2);color:#fff;}
 
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #00bcd4;
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            flex: 1;
-            animation: fadeInDown 1.5s ease-in-out 0.3s forwards;
-        }
+/* ── DAY VIEW ── */
+.day-view{display:none;}
+.day-view.active{display:block;}
+.day-hdr{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:18px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:16px 18px;
+}
+.day-title{font-size:2rem;font-weight:800;letter-spacing:-0.5px;flex:1;}
+.day-badge{
+  font-family:'Space Mono',monospace;font-size:0.55rem;
+  color:#000;background:var(--accent);padding:5px 10px;
+  border-radius:6px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;
+}
+.day-badge.rest{background:var(--accent2);color:#fff;}
 
-        .logo-left, .logo-right {
-            width: 100px;
-            height: 100px;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            animation: moveLogos 10s linear infinite;
-        }
+/* ring */
+.ring-wrap{position:relative;width:52px;height:52px;flex-shrink:0;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-txt{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Space Mono',monospace;font-size:0.62rem;font-weight:700;color:var(--accent);
+}
 
-        .logo-left {
-            background-image: url('file:///C:/Users/admin/OneDrive/Descargas/WhatsApp%20Image%202024-09-01%20at%2011.38.26%20PM.jpeg');
-        }
+/* ── SECTION ── */
+.section{margin-bottom:20px;}
+.sec-hdr{
+  font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--accent);
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.sec-hdr::after{content:'';flex:1;height:1px;background:var(--border);}
 
-        .logo-right {
-            background-image: url('file:///C:/Users/admin/OneDrive/Descargas/WhatsApp%20Image%202024-09-01%20at%2011.38.26%20PM.jpeg');
-        }
+/* ── INFO BOX ── */
+.info-box{border-radius:12px;padding:14px 16px;margin-bottom:14px;border-left:3px solid;}
+.info-box.green{background:rgba(200,241,53,0.06);border-color:var(--accent);}
+.info-box.orange{background:rgba(255,107,53,0.06);border-color:var(--accent2);}
+.info-box.blue{background:rgba(53,212,241,0.06);border-color:var(--accent3);}
+.info-box.purple{background:rgba(180,127,255,0.06);border-color:var(--purple);}
+[data-theme="light"] .info-box.green{background:rgba(77,140,0,0.06);}
+[data-theme="light"] .info-box.orange{background:rgba(201,64,16,0.06);}
+[data-theme="light"] .info-box.blue{background:rgba(2,132,199,0.06);}
+[data-theme="light"] .info-box.purple{background:rgba(124,58,237,0.06);}
+.info-lbl{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.info-box.green .info-lbl{color:var(--accent);}
+.info-box.orange .info-lbl{color:var(--accent2);}
+.info-box.blue .info-lbl{color:var(--accent3);}
+.info-box.purple .info-lbl{color:var(--purple);}
+.info-txt{font-size:0.92rem;line-height:1.75;color:var(--text);}
 
-        nav {
-            text-align: center;
-            padding: 1rem;
-            background-color: #282c34;
-        }
+/* ── TIMELINE ── */
+.timeline{display:flex;flex-direction:column;gap:6px;}
+.tblock{
+  border-radius:12px;background:var(--surface);
+  border:1px solid var(--border);overflow:hidden;
+  transition:border-color 0.2s;
+}
+.tblock.hl{border-color:var(--accent);background:rgba(200,241,53,0.03);}
+.tblock.warn{border-color:var(--accent2);background:rgba(255,107,53,0.03);}
+.tblock-top{
+  display:flex;gap:0;padding:0;cursor:pointer;
+  align-items:stretch;
+}
+.t-time-col{
+  background:rgba(255,255,255,0.03);
+  border-right:1px solid var(--border);
+  padding:14px 10px;min-width:72px;
+  display:flex;align-items:flex-start;justify-content:center;
+  flex-shrink:0;
+}
+[data-theme="light"] .t-time-col{background:rgba(0,0,0,0.02);}
+.t-time{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted);line-height:1.4;text-align:center;}
+.t-main{flex:1;padding:14px 12px;display:flex;flex-direction:column;gap:4px;}
+.t-action{font-size:1rem;font-weight:700;line-height:1.25;}
+.t-short{font-size:0.82rem;color:var(--muted);line-height:1.5;}
+.t-arrow{
+  padding:14px 12px;display:flex;align-items:center;
+  font-size:0.75rem;color:var(--muted);flex-shrink:0;
+  transition:transform 0.2s;
+}
+.t-arrow.open{transform:rotate(180deg);}
+.t-expand{
+  display:none;padding:14px 14px 16px;
+  font-size:0.88rem;line-height:1.85;color:var(--text);
+  border-top:1px solid var(--border);
+}
+.t-expand.open{display:block;}
+.t-expand p{margin-bottom:10px;}
+.t-expand p:last-child{margin-bottom:0;}
+.t-expand strong{color:var(--accent);font-weight:700;}
+.t-expand em{color:var(--accent2);font-style:normal;}
 
-        nav a {
-            color: #61dafb;
-            margin: 0 15px;
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-block;
-            animation: textSlideIn 1s ease-out;
-        }
+/* ── MEALS ── */
+.meals-grid{display:flex;flex-direction:column;gap:10px;}
+.meal-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;}
+.meal-nm{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--accent3);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.meal-tm{font-size:0.75rem;color:var(--muted);margin-bottom:12px;}
+.meal-row{padding:8px 0;border-bottom:1px solid var(--border);}
+.meal-row:last-of-type{border:none;}
+.meal-food{font-size:0.92rem;font-weight:600;margin-bottom:3px;}
+.meal-why{font-size:0.8rem;color:var(--muted);line-height:1.5;}
+.meal-avoid{margin-top:12px;padding:10px 12px;background:rgba(255,107,53,0.08);border-radius:8px;font-size:0.8rem;color:var(--accent2);line-height:1.55;}
 
-        nav a:hover {
-            color: #21a1f1;
-        }
+/* ── EXERCISE ── */
+.ex-list{display:flex;flex-direction:column;gap:8px;}
+.ex-row{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.ex-n{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);font-weight:700;flex-shrink:0;min-width:22px;padding-top:2px;}
+.ex-b{flex:1;}
+.ex-t{font-size:0.95rem;font-weight:700;margin-bottom:4px;}
+.ex-d{font-size:0.82rem;color:var(--muted);line-height:1.6;}
+.ex-tm{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--accent2);margin-top:6px;}
 
-        section {
-            margin: 2rem auto;
-            padding: 1rem;
-            max-width: 1200px;
-            background: transparent;
-            border-radius: 10px;
-            text-align: left;
-        }
+/* ── EYES ── */
+.eye-grid{display:flex;flex-direction:column;gap:8px;}
+.eye-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+.eye-t{font-size:0.95rem;font-weight:700;margin-bottom:5px;}
+.eye-d{font-size:0.82rem;color:var(--muted);line-height:1.6;}
 
-        .section-title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: bold;
-            animation: fadeInUp 1.5s ease-in-out 0.3s forwards;
-        }
+/* ── CHECKLIST ── */
+.checklist{display:flex;flex-direction:column;gap:8px;}
+.ck-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px 14px;background:var(--surface);
+  border:1px solid var(--border);border-radius:12px;
+  cursor:pointer;transition:all 0.2s;user-select:none;
+}
+.ck-item:active{transform:scale(0.99);}
+.ck-item.done{border-color:var(--success);background:rgba(74,222,128,0.04);}
+.ck-item.done .ck-text{color:var(--muted);text-decoration:line-through;}
+.ck-box{
+  width:26px;height:26px;border-radius:7px;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all 0.2s;font-size:0.8rem;margin-top:1px;
+}
+.ck-item.done .ck-box{background:var(--success);border-color:var(--success);color:#000;}
+.ck-bd{flex:1;}
+.ck-text{font-size:0.96rem;transition:all 0.2s;display:block;margin-bottom:5px;font-weight:700;line-height:1.3;}
+.ck-sub{font-size:0.8rem;color:var(--muted);line-height:1.6;}
 
-        .section-title i {
-            margin-right: 10px;
-            font-size: 1.8rem;
-            color: #00bcd4;
-        }
+.reset-btn{
+  background:transparent;border:1px solid var(--border);color:var(--muted);
+  font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:1px;
+  text-transform:uppercase;padding:12px 16px;border-radius:10px;cursor:pointer;
+  transition:all 0.2s;margin-top:12px;display:block;width:100%;
+}
+.reset-btn:active{transform:scale(0.98);}
 
-        .content {
-            opacity: 0;
-            animation: fadeInUp 1.5s ease-in-out 0.6s forwards;
-        }
-
-        p {
-            font-family: 'Lato', sans-serif;
-            margin: 0 auto;
-            max-width: 800px;
-        }
-
-        ul {
-            list-style-type: disc;
-            list-style-position: inside;
-            padding-left: 0;
-            margin: 0 auto;
-            max-width: 800px;
-        }
-
-        li {
-            margin: 0.5rem 0;
-            font-family: 'Lato', sans-serif;
-            font-size: 1rem;
-        }
-
-        footer {
-            text-align: center;
-            background-color: #20232a;
-            color: #61dafb;
-            padding: 1rem;
-            margin-top: 20px;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
-        .btn-contact {
-            display: inline-block;
-            background-color: #61dafb;
-            color: #20232a;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            border: 1px solid #61dafb;
-        }
-
-        .btn-contact:hover {
-            background-color: #21a1f1;
-            color: #ffffff;
-        }
-
-        .button-container {
-            text-align: center;
-            margin-top: 1rem;
-        }
-    </style>
+/* ── INSTRUCCIONES INSTALAR ── */
+.how-install{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:16px;margin-bottom:16px;
+}
+.how-title{font-size:0.9rem;font-weight:700;margin-bottom:10px;color:var(--accent);}
+.how-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
+.how-step:last-child{margin-bottom:0;}
+.how-num{
+  font-family:'Space Mono',monospace;font-size:0.62rem;font-weight:700;
+  color:#000;background:var(--accent);width:20px;height:20px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.how-txt{font-size:0.84rem;color:var(--muted);line-height:1.5;}
+</style>
 </head>
 <body>
+<div class="wrapper">
 
-    <header>
-        <div class="logo-left"></div>
-        <h1>Optinet Systems SAS</h1>
-        <div class="logo-right"></div>
-    </header>
+<div class="top-bar">
+  <span class="app-logo">📅 Mi Plan</span>
+  <button class="theme-btn" onclick="toggleTheme()">
+    <span class="theme-icon" id="themeIcon">☀️</span>
+    <span id="themeLabel">Modo claro</span>
+  </button>
+</div>
 
-    <nav>
-        <a href="#quienes-somos">¿Quiénes somos?</a>
-        <a href="#mision-vision">Misión y Visión</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#contacto">Contáctanos</a>
-    </nav>
+<div class="header">
+  <h1>Mi Plan <span>Semanal</span></h1>
+  <p>Transformación · 24 años · Bogotá 🇨🇴</p>
+</div>
 
-    <section id="quienes-somos">
-        <div class="section-title">
-            <i class="fas fa-users"></i>
-            <h2>¿Quiénes somos?</h2>
-        </div>
-        <div class="content">
-            <p>En <strong>Optinet Systems SAS</strong>, somos una empresa líder especializada en el montaje de cableado eléctrico y físico para empresas de todos los sectores. Con años de experiencia, ofrecemos soluciones eficientes adaptadas a las necesidades de cada uno de nuestros clientes.</p>
-            <p>Nos conformamos por un equipo de profesionales altamente capacitados en la instalación de infraestructuras eléctricas y de cableado. Desde pequeñas oficinas hasta grandes industrias, estamos preparados para manejar proyectos de cualquier magnitud.</p>
-        </div>
-    </section>
+<!-- Instrucciones para abrir fácil -->
+<div class="how-install">
+  <div class="how-title">📲 Cómo abrir esto fácil en Brave</div>
+  <div class="how-step">
+    <div class="how-num">1</div>
+    <div class="how-txt">Toca los <strong>3 puntos ⋮</strong> arriba a la derecha en Brave</div>
+  </div>
+  <div class="how-step">
+    <div class="how-num">2</div>
+    <div class="how-txt">Busca <strong>"Añadir a pantalla de inicio"</strong> o <strong>"Crear acceso directo"</strong></div>
+  </div>
+  <div class="how-step">
+    <div class="how-num">3</div>
+    <div class="how-txt">Toca <strong>Agregar</strong> — queda como ícono en tu pantalla. Ábrelo directo sin buscar el archivo.</div>
+  </div>
+</div>
 
-    <section id="mision-vision">
-        <div class="section-title">
-            <i class="fas fa-bullseye"></i>
-            <h2>Nuestra Misión y Visión</h2>
-        </div>
-        <div class="content">
-            <p><strong>Misión:</strong> Brindar soluciones integrales de cableado eléctrico y físico que contribuyan al crecimiento y la eficiencia de las empresas, garantizando calidad, seguridad y personalización en cada proyecto.</p>
-            <p><strong>Visión:</strong> Ser reconocidos como la empresa líder en el sector de instalaciones eléctricas y de cableado en el país, destacándonos por nuestra innovación, compromiso y excelencia en cada proyecto, con un enfoque sostenible y a largo plazo.</p>
-        </div>
-    </section>
+<div class="week-panel">
+  <div class="sec-hdr">Progreso semanal</div>
+  <div class="week-dots" id="weekDots"></div>
+  <button class="reset-btn" onclick="resetAll()">↺ Reiniciar semana completa</button>
+</div>
 
-    <section id="como-trabajamos">
-        <div class="section-title">
-            <i class="fas fa-cogs"></i>
-            <h2>¿Cómo trabajamos?</h2>
-        </div>
-        <div class="content">
-            <p>Nos enfocamos en proporcionar un servicio de calidad, cumpliendo con los más altos estándares técnicos y de seguridad, mientras nos ajustamos a los plazos y presupuestos de nuestros clientes. Sabemos que cada empresa tiene sus propias necesidades, por lo que personalizamos nuestros servicios para ofrecer soluciones a medida.</p>
-            <ul>
-                <li><strong>Diagnóstico personalizado</strong>: Evaluamos las instalaciones para diseñar la mejor estrategia.</li>
-                <li><strong>Soluciones integrales</strong>: Nos encargamos de todo el proceso, desde planificación hasta pruebas finales.</li>
-                <li><strong>Ajuste a tu bolsillo</strong>: Ofrecemos precios competitivos sin comprometer la calidad.</li>
-            </ul>
-        </div>
-    </section>
+<div class="stats">
+  <div class="stat"><span class="stat-n" id="sC">0</span><span class="stat-l">Hechas hoy</span></div>
+  <div class="stat"><span class="stat-n" id="sT">0</span><span class="stat-l">Total tareas</span></div>
+  <div class="stat"><span class="stat-n" id="sP">0%</span><span class="stat-l">Completado</span></div>
+  <div class="stat"><span class="stat-n" id="sS">0</span><span class="stat-l">Días seguidos</span></div>
+</div>
 
-    <section id="servicios">
-        <div class="section-title">
-            <i class="fas fa-cogs"></i>
-            <h2>Servicios que ofrecemos</h2>
-        </div>
-        <div class="content">
-            <ul>
-                <li>Instalación de cableado eléctrico industrial y comercial.</li>
-                <li>Cableado estructurado para redes de telecomunicaciones.</li>
-                <li>Mantenimiento y optimización de sistemas eléctricos.</li>
-                <li>Soluciones de infraestructura para empresas de cualquier sector.</li>
-            </ul>
-        </div>
-    </section>
+<div class="nav" id="nav"></div>
+<div id="views"></div>
 
-    <section id="contacto">
-        <div class="section-title">
-            <i class="fas fa-envelope"></i>
-            <h2>Contáctanos</h2>
-        </div>
-        <div class="content">
-            <p>Estamos listos para asesorarte y trabajar en conjunto para el éxito de tu proyecto. Llámanos o escríbenos para obtener una cotización personalizada.</p>
-            <div class="button-container">
-                <a class="btn-contact" href="mailto:info@optinetsystems.com">Contáctanos por Email</a>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   PWA INSTALL
+═══════════════════════════════════════════════ */
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  const banner=document.getElementById('installBanner');
+  if(banner) banner.style.display='flex';
+});
+window.addEventListener('appinstalled',()=>{
+  const banner=document.getElementById('installBanner');
+  if(banner) banner.style.display='none';
+  deferredPrompt=null;
+});
+function installPWA(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(()=>{deferredPrompt=null;});
+  } else {
+    // Fallback: show instructions
+    alert('Para instalar:\n\niOS Safari: toca el botón compartir (□↑) y luego "Añadir a pantalla de inicio"\n\nAndroid Chrome: toca los 3 puntos (⋮) y luego "Añadir a pantalla de inicio"');
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   THEME
+═══════════════════════════════════════════════ */
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.dataset.theme==='dark';
+  html.dataset.theme=isDark?'light':'dark';
+  document.getElementById('themeIcon').textContent=isDark?'🌙':'☀️';
+  document.getElementById('themeLabel').textContent=isDark?'Modo oscuro':'Modo claro';
+  const tc=document.getElementById('themeColor');
+  if(tc) tc.content=isDark?'#f0f2f5':'#0d0d0f';
+  try{localStorage.setItem('theme',isDark?'light':'dark');}catch{}
+}
+(function(){
+  try{
+    const t=localStorage.getItem('theme');
+    if(t){
+      document.documentElement.dataset.theme=t;
+      document.getElementById('themeIcon').textContent=t==='light'?'🌙':'☀️';
+      document.getElementById('themeLabel').textContent=t==='light'?'Modo oscuro':'Modo claro';
+    }
+  }catch{}
+})();
+
+/* ═══════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════ */
+const DAYS=[
+  {id:'lun',label:'Lunes',    short:'LUN',type:'laboral'},
+  {id:'mar',label:'Martes',   short:'MAR',type:'laboral'},
+  {id:'mie',label:'Miércoles',short:'MIE',type:'laboral'},
+  {id:'jue',label:'Jueves',   short:'JUE',type:'laboral'},
+  {id:'vie',label:'Viernes',  short:'VIE',type:'laboral'},
+  {id:'sab',label:'Sábado',   short:'SAB',type:'descanso'},
+  {id:'dom',label:'Domingo',  short:'DOM',type:'descanso'},
+];
+const TODAY=(new Date().getDay()+6)%7;
+let STATE={};
+
+/* ── SCHEDULES ── */
+const SCHED_LAB=[
+  {
+    time:'4:45 AM', action:'⏰ Despertar', short:'Agua inmediatamente. Despertador físico, sin celular.',
+    detail:`<p><strong>Lo primero que haces:</strong> Abrir los ojos y tomar el vaso de agua que dejaste en la mesa de noche la noche anterior. No es opcional — el cuerpo lleva 6-7 horas sin agua y está deshidratado.</p>
+<p><strong>Por qué sin celular:</strong> El celular en la mañana activa el sistema nervioso con notificaciones, redes y noticias antes de que el cerebro esté listo. Eso genera ansiedad y estrés desde los primeros minutos del día. El despertador físico reemplaza completamente al celular.</p>
+<p><strong>Qué sentirás:</strong> Los primeros días será muy difícil. El cuerpo tarda 2 semanas en adaptarse a este horario. No te rindas en la primera semana. Al día 10, el cuerpo empieza a despertarse solo cerca de las 4:45 AM.</p>`,
+    hl:true
+  },
+  {
+    time:'4:50 AM', action:'🧘 Estiramiento suave (10 min)', short:'En el cuarto, sin salir. Ver rutina de estiramientos abajo.',
+    detail:`<p><strong>Por qué estirarse tan temprano:</strong> Después de horas durmiendo, los músculos están rígidos y la sangre se ha movido poco. Si sales directo sin estirarte, el cuerpo tarda más en activarse y hay riesgo de dolores de espalda por el día de PC.</p>
+<p><strong>Cómo hacerlo:</strong> Lento, sin forzar. No es un calentamiento intenso — es despertar el cuerpo gentilmente. Puedes hacerlo en pijama, en el cuarto, sin hacer ruido para no despertar a tu pareja.</p>
+<p><strong>Duración real:</strong> 10 minutos exactos. Si haces los 8 ejercicios de la sección de abajo, con eso es suficiente. No necesitas más.</p>`
+  },
+  {
+    time:'5:05 AM', action:'🍳 Desayuno (preparado anoche)', short:'Comer sentado, tranquilo. No corriendo ni parado.',
+    detail:`<p><strong>Qué comer:</strong> Opción A — avena en frío (avena + leche o agua + banano picado + miel en un frasco, preparada la noche anterior). Opción B — pan integral + huevo cocido + banano. El huevo se cocina la noche anterior también.</p>
+<p><strong>Por qué prepararlo la noche anterior:</strong> A las 5 AM no hay tiempo ni cerebro para cocinar. Si no está listo, te saltarás el desayuno o comerás basura en la calle. El desayuno es la comida más importante del día con tu horario porque es el combustible hasta el almuerzo.</p>
+<p><strong>Cómo comer:</strong> Sentado, en 10 minutos. Sin celular. Sin TV. Solo come. Esto mejora la digestión y la absorción de nutrientes.</p>
+<p><em>Sin café todavía.</em> El café va después de las 9 AM en el trabajo, nunca en ayunas.</p>`,
+    hl:true
+  },
+  {
+    time:'5:20 AM', action:'🚿 Alistarse y prepararse', short:'Ducha, ropa lista desde anoche. Sin afán.',
+    detail:`<p><strong>La ducha a esta hora:</strong> Activa completamente el cuerpo. Si la haces fría o fresca, mejor — activa la circulación y despeja la mente. Si la prefieres caliente, está bien, pero termina con 30 segundos de agua fría.</p>
+<p><strong>La ropa:</strong> Ya la dejaste lista anoche. No pienses en qué ponerte ahora — ya decidiste. Esto elimina una decisión a las 5 AM cuando el cerebro aún no funciona bien.</p>
+<p><strong>El bolso o mochila:</strong> También debería estar listo desde la noche anterior con todo lo que necesitas para el día.</p>`
+  },
+  {
+    time:'5:30 AM', action:'🚶 Salir y caminar a la estación', short:'Sin celular en la mano. Camina a buen ritmo.',
+    detail:`<p><strong>Este trayecto es ejercicio real:</strong> Si caminas 10-15 minutos a buen ritmo dos veces al día (ida y vuelta), eso suma 20-30 minutos de caminata diaria sin esfuerzo adicional. No subestimes esto.</p>
+<p><strong>Cómo caminar:</strong> Espalda recta, pasos firmes, ritmo activo. No el ritmo de "voy a perder el bus" pero sí más rápido que un paseo.</p>
+<p><strong>Los audífonos:</strong> Están bien, pero el celular va en el bolsillo. Música o podcast que te active para el día. Nada de redes sociales caminando — además de que es peligroso, daña la postura del cuello.</p>`
+  },
+  {
+    time:'Bus ida', action:'🎵 Transmilenio — activación mental', short:'Música motivadora. Sin redes sociales.',
+    detail:`<p><strong>Este tiempo es tuyo:</strong> El Transmilenio puede ser estresante o puede ser tu momento de preparación mental. Tú decides cuál de los dos es.</p>
+<p><strong>Qué hacer:</strong> Música que te guste y te ponga de buen humor para llegar activado al trabajo. Si hay puesto, cierra los ojos 10 minutos — eso es descanso visual real.</p>
+<p><strong>Por qué no redes sociales:</strong> Instagram, TikTok y WhatsApp activan el cerebro con estimulación constante antes de que empieces a trabajar. Llegan al trabajo ya mentalmente cansado. La música sin pantalla es radicalmente diferente.</p>
+<p><em>Si necesitas ver el celular, permite solo música y mensajes urgentes.</em></p>`
+  },
+  {
+    time:'7:30 AM', action:'💻 Inicio del trabajo', short:'Organiza las 3 tareas del día antes de abrir redes.',
+    detail:`<p><strong>Los primeros 10 minutos:</strong> Antes de abrir cualquier red, correo o chat, escribe en papel las 3 cosas más importantes que debes completar hoy. Solo 3. Esto organiza el cerebro y evita el día reactivo donde respondes a lo urgente de otros en vez de hacer lo tuyo.</p>
+<p><strong>El PC:</strong> Activa el filtro de luz azul desde el primer momento (Windows: Configuración → Pantalla → Luz nocturna). El brillo al 65%. El texto un poco más grande de lo normal.</p>
+<p><strong>Postura:</strong> Espalda recta, los ojos al nivel de la parte superior del monitor, pies planos en el piso. Con gafas y PC todo el día, la postura afecta directamente el cansancio de ojos y cuello.</p>`
+  },
+  {
+    time:'9:00 AM', action:'☕ Primer café del día', short:'NUNCA antes. Siempre después de desayunar.',
+    detail:`<p><strong>Por qué esperar hasta las 9 AM:</strong> El cortisol (la hormona de alerta natural) está en su pico entre las 8 y 9 AM. El café en ese momento compite con el cortisol y lo baja, haciendo que el café sea menos efectivo y generando más ansiedad. Después de las 9 AM el cortisol baja y el café hace su trabajo real.</p>
+<p><strong>El azúcar:</strong> Esta semana: 3 sobres. La próxima: 2. El mes que viene: 1. El mes siguiente: 0 o solo 0.5. No lo bajes de golpe — el cuerpo se resiste y el sabor cambia drásticamente. Gradual funciona.</p>
+<p><strong>El café en ayunas (lo que hacías antes):</strong> Irrita el estómago, sube el cortisol artificial, genera ansiedad y contribuye a la nariz tapada. Cambiarlo solo ya vas a sentir diferencia en 1-2 semanas.</p>`,
+    hl:true
+  },
+  {
+    time:'Cada hora', action:'👁️ Pausa de ojos — 1 minuto mínimo', short:'Pon la alarma en el PC ahora. Cada 60 minutos.',
+    detail:`<p><strong>Qué hacer exactamente:</strong> Cuando suena la alarma, aléjate del PC si puedes. Cierra los ojos completamente durante 60 segundos. No es dormir — es relajar el músculo que mueve el ojo. Este músculo se fatiga exactamente como los músculos del cuerpo.</p>
+<p><strong>La regla 20-20-20 adicional:</strong> Cada 20 minutos, mira algo a 6 metros de distancia (el horizonte, el final del pasillo, la calle por la ventana) durante 20 segundos. Esto relaja el músculo del enfoque que está constantemente contraído mirando la pantalla.</p>
+<p><strong>Por qué palpita tu ojo:</strong> Lo que sientes se llama mioquimia palpebral. Es una contracción involuntaria del músculo del párpado causada por fatiga visual + cafeína excesiva + falta de sueño. No es grave, pero es una señal de alerta que el cuerpo te está enviando. Estas pausas son la solución directa.</p>
+<p><em>Pon la alarma ya: en el PC busca "alarma" o usa el celular boca abajo en el escritorio.</em></p>`,
+    warn:true
+  },
+  {
+    time:'Almuerzo', action:'🍽️ Almuerzo + caminata 15 min', short:'Sal del puesto a caminar después de comer.',
+    detail:`<p><strong>La comida:</strong> Proteína (pollo, carne, atún, huevo, fríjoles) + UN solo carbohidrato (arroz O papa O plátano, elige uno) + vegetal (ensalada, brócoli, zanahoria, lo que haya). Agua o jugo natural. Sin gaseosa.</p>
+<p><strong>Por qué solo un carbohidrato:</strong> El arroz + papa + plátano junto es triple carga glucémica. Después de eso el cuerpo produce mucha insulina, baja el azúcar y te da el "bajón de almuerzo" — sueño, lentitud, dificultad de concentración. Con un solo carbohidrato eso no pasa tan fuerte.</p>
+<p><strong>La caminata de 15 minutos:</strong> Sal del edificio o camina por el lugar donde puedas. Caminar después de comer activa la digestión, baja el pico de azúcar en sangre y refresca la mente para la tarde. Los que hacen esto son notablemente más productivos en la tarde.</p>
+<p><strong>El sol:</strong> Aunque sea 10 minutos de sol al mediodía activa la vitamina D y mejora el humor. Con tu jornada encerrado, esto vale oro.</p>`
+  },
+  {
+    time:'2:00 PM', action:'☕ Segundo café (si aplica)', short:'Este es el último café del día.',
+    detail:`<p><strong>Solo si lo necesitas:</strong> Si vas bien de energía, sáltate este café. El objetivo a mediano plazo es no necesitar el segundo. El primero de las 9 AM debería ser suficiente.</p>
+<p><strong>Por qué no después de las 3 PM:</strong> La cafeína tiene una vida media de 5-6 horas. Un café a las 4 PM sigue activo a las 10 PM, cuando necesitas dormir. Aunque no sientas que "te desvela", sí afecta la calidad del sueño — duermes menos profundo sin saberlo.</p>
+<p><strong>El azúcar:</strong> Mismo objetivo que el primero. Esta semana 3 sobres máximo. Gradual hacia abajo.</p>`
+  },
+  {
+    time:'6:00 PM', action:'🏁 Salida del trabajo', short:'Desconectar la mente. No contestar trabajo en el bus.',
+    detail:`<p><strong>La desconexión mental:</strong> De la oficina a la estación, deja ir mentalmente el trabajo. Si quedaron cosas sin hacer, las harás mañana. El cuerpo necesita una transición entre "modo trabajo" y "modo casa".</p>
+<p><strong>No respondas trabajo en el Transmilenio:</strong> A menos que sea una emergencia real, esos mensajes pueden esperar hasta mañana. Responder trabajo de noche prolonga el estrés y daña el sueño.</p>
+<p><strong>Lo que puedes hacer:</strong> Música, pensar en qué vas a cenar, planear algo con tu pareja para el fin de semana. Pensamientos positivos o neutros — no de trabajo.</p>`
+  },
+  {
+    time:'Bus vuelta', action:'😴 Transmilenio vuelta — descanso visual', short:'Ojos cerrados o mirando lejos. Sin celular.',
+    detail:`<p><strong>Este es el descanso más importante del día para tus ojos:</strong> Llevas 8-9 horas con los ojos fijos en una pantalla a 50 cm de distancia. El viaje de vuelta con los ojos cerrados o mirando el horizonte por la ventana es exactamente lo opuesto — los músculos oculares se relajan completamente.</p>
+<p><strong>Si no puedes cerrar los ojos:</strong> Mira por la ventana al punto más lejano que puedas ver. La calle, los edificios al fondo, el cielo. Cualquier cosa a más de 10 metros de distancia.</p>
+<p><strong>La diferencia que vas a notar:</strong> Llegarás a casa con menos dolor de cabeza, menos tensión en los ojos y más energía para la noche con tu pareja. Esto solo requiere guardar el celular en el bolsillo durante 1 hora.</p>`,
+    warn:true
+  },
+  {
+    time:'7:30 PM', action:'🏡 Llegada a casa — transición', short:'45 minutos sin ninguna pantalla.',
+    detail:`<p><strong>Por qué 45 minutos sin pantalla:</strong> Llevas 14 horas fuera de casa. El cerebro y los ojos necesitan una transición real antes de volver a una pantalla. Estos 45 minutos son los más valiosos del día para tu bienestar.</p>
+<p><strong>Qué hacer:</strong> Cambiarte de ropa (acción que le dice al cerebro "terminó el trabajo"), saludar a tu pareja con atención real, tomar agua, respirar. Puedes escuchar música sin pantalla.</p>
+<p><strong>Con tu pareja:</strong> Este es el momento de reconexión. Preguntarle cómo le fue, escuchar, estar presente. Sin celular de por medio, esta conversación de 15-20 minutos fortalece la relación más que horas juntos cada uno en su teléfono.</p>`,
+    hl:true
+  },
+  {
+    time:'8:00 PM', action:'🍵 Cena ligera', short:'Lo más liviano del día. Nunca frito ni pesado.',
+    detail:`<p><strong>Por qué cena ligera:</strong> Comes a las 8 PM y duermes a las 10 PM — solo 2 horas de diferencia. El cuerpo no tiene tiempo de digerir una comida pesada antes de dormir. Lo que no se digiere se acumula y se convierte en grasa con más facilidad de noche.</p>
+<p><strong>Opciones concretas:</strong> 2 huevos revueltos con arepa (10 min), sopa de sobre con atún en lata (10 min), ensalada con pollo o atún frío (5 min), pan integral con aguacate y huevo. Todas rápidas, ligeras y con proteína.</p>
+<p><strong>Lo que NO comer de noche:</strong> Fritanga, bandeja completa, pasta con crema, arroz con todo. No porque sea "malo" sino porque a las 8 PM y con dormir a las 10 PM, tu cuerpo no lo necesita ni lo puede procesar bien.</p>`
+  },
+  {
+    time:'8:30 PM', action:'🚿 Ducha + preparar para mañana', short:'Ropa lista, desayuno en la nevera.',
+    detail:`<p><strong>La ducha nocturna:</strong> Baja la temperatura corporal, lo que le dice al cerebro que es hora de dormir. Es una señal biológica real — el cuerpo empieza a producir melatonina cuando la temperatura baja. La ducha de noche mejora la calidad del sueño.</p>
+<p><strong>Preparar el desayuno (5 minutos):</strong> El frasco de avena: mete avena + leche o agua + banano picado + miel o azúcar en un frasco con tapa. A la nevera. Listo para mañana. O cocina 1-2 huevos duros ahora. Total: 5 minutos que ahorran todo el estrés de las 5 AM.</p>
+<p><strong>La ropa:</strong> Escoge y deja todo junto — ropa interior, medias, pantalón, camisa. En la silla o colgada. A las 4:50 AM no hay cerebro disponible para estas decisiones.</p>`
+  },
+  {
+    time:'9:00 PM', action:'🎵 Tiempo libre — máximo 1 hora', short:'Música sin pantalla si puedes. Con tu pareja.',
+    detail:`<p><strong>Este tiempo es sagrado:</strong> Es para ti y tu pareja. No para el trabajo, no para redes sociales, no para preocupaciones. 1 hora de tiempo real de calidad.</p>
+<p><strong>Ideas sin pantalla:</strong> Escuchar música juntos, hablar de algo que no sea trabajo, planear algo del fin de semana, simplemente estar sin hacer nada. Suena simple pero es de lo más poderoso para la relación y para el bienestar mental.</p>
+<p><strong>Si van a ver algo:</strong> Una serie o película corta está bien. Pero con el brillo de la pantalla bajo y terminando antes de las 9:45 PM para dar tiempo de apagar el cerebro antes de dormir.</p>
+<p><em>La música que escuchas — sin pantalla — es perfecta para este momento. Tus oídos descansan el alma, tus ojos descansan del día.</em></p>`
+  },
+  {
+    time:'9:45 PM', action:'📋 Checklist nocturno del día', short:'5 minutos. Marca lo que cumpliste hoy.',
+    detail:`<p><strong>Por qué hacer esto de noche:</strong> Revisar lo que cumpliste activa la dopamina — la hormona del logro. Incluso si solo cumpliste 5 de 12 cosas, marcarlas da satisfacción y motivación para mañana. Es más poderoso de lo que parece.</p>
+<p><strong>Cómo hacerlo:</strong> Abres el tracker, vas marcando honestamente lo que sí hiciste. No te juzgues por lo que no hiciste — simplemente lo dejas sin marcar. Con el tiempo el patrón te dirá exactamente qué hábitos te cuestan más.</p>
+<p><strong>El desayuno:</strong> Si no lo preparaste a las 8:30 PM, hazlo ahora antes de cerrar la cocina. Es el último paso del día.</p>`
+  },
+  {
+    time:'10:00 PM', action:'😴 Dormir — innegociable', short:'Sin celular en la cama. En 6h 45min suena la alarma.',
+    detail:`<p><strong>Por qué a las 10 PM exactas:</strong> Con 4:45 AM de levantada tienes 6 horas 45 minutos de sueño. No es mucho — por eso la calidad importa. Cada minuto después de las 10 PM que estés despierto es un minuto menos de sueño profundo.</p>
+<p><strong>Si la mente no para:</strong> Técnica 4-7-8: inhala 4 segundos, retén 7 segundos, exhala lentamente 8 segundos. Repite 3-4 veces. Esta técnica activa el sistema nervioso parasimpático (el de calma) y apaga el simpático (el de alerta). Funciona en 2-3 minutos.</p>
+<p><strong>Sin celular en la cama:</strong> La luz azul de la pantalla suprime la melatonina (hormona del sueño) hasta 2 horas. Si revisas el celular a las 10 PM, el cerebro no empieza a producir melatonina hasta las 12 AM — cuando ya deberías estar en sueño profundo.</p>
+<p><strong>Con tu pareja:</strong> Si ella también está despierta, está bien charlar unos minutos en la oscuridad. Pero sin pantallas de ninguno de los dos.</p>`,
+    hl:true
+  },
+];
+
+const SCHED_SAB=[
+  {
+    time:'7:00 AM', action:'⏰ Despertar natural', short:'Sin alarma si el cuerpo lo permite. Agua al despertar.',
+    detail:`<p><strong>El sábado el cuerpo manda:</strong> Después de una semana de 4:45 AM, el cuerpo necesita recuperar sueño. Si te despiertas antes de las 8 AM naturalmente, perfecto. Si no, pon alarma a las 8:30 AM máximo — no rompas el ciclo completamente.</p>
+<p><strong>Agua inmediatamente:</strong> Esto no cambia ni el fin de semana. El cuerpo lleva horas sin líquido. Un vaso de agua al despertar es el mejor hábito que puedes mantener todos los días de tu vida.</p>
+<p><strong>No hagas nada por 10 minutos:</strong> Quédate en la cama despierto, sin celular, sin nada. Solo existe. Estos 10 minutos de transición suave entre el sueño y el día hacen que el sábado empiece de forma completamente diferente.</p>`
+  },
+  {
+    time:'7:30 AM', action:'🍳 Desayuno juntos', short:'El mejor momento del fin de semana. Sin celular en la mesa.',
+    detail:`<p><strong>Por qué este es el momento más valioso:</strong> En la semana no tienen tiempo para desayunar juntos. El sábado en la mañana, sin afán, preparando algo juntos o por turnos, es de los momentos de conexión más fuertes en una relación.</p>
+<p><strong>Qué preparar:</strong> Huevos como los quieran (revueltos, fritos, tibios), arepa, fruta, jugo natural exprimido si pueden. El café después de desayunar — esta semana con 3 sobres de azúcar máximo.</p>
+<p><strong>Sin celular en la mesa:</strong> Este es el único requisito. Coman mirándose, hablando, disfrutando. 20 minutos sin pantalla en el desayuno del sábado fortalece más la relación que muchas cosas más elaboradas.</p>`,
+    hl:true
+  },
+  {
+    time:'8:30 AM', action:'🚶 Caminata 30-45 min', short:'Con tu pareja si quiere. Parque, ciclovía, el barrio.',
+    detail:`<p><strong>Este es el ejercicio principal del fin de semana:</strong> No tienes tiempo entre semana para hacer ejercicio real. El sábado en la mañana es tu ventana. 30-45 minutos de caminata a buen ritmo quema entre 200-300 calorías y activa el metabolismo para todo el día.</p>
+<p><strong>Con tu pareja:</strong> Invítala. No como "vamos a hacer ejercicio" sino como "¿salimos a caminar un rato?". Cuando se hace en compañía no se siente como sacrificio. Es un plan, no un castigo.</p>
+<p><strong>Dónde:</strong> El parque más cercano, la ciclovía si es sábado, el barrio. No importa dónde — lo que importa es salir. El sol de la mañana, el aire fresco y el movimiento después de una semana de PC es exactamente lo que el cuerpo necesita.</p>`,
+    hl:true
+  },
+  {
+    time:'10:00 AM', action:'🏠 Oficio de la casa', short:'En equipo. Barrer, limpiar, organizar.',
+    detail:`<p><strong>El oficio como tiempo compartido:</strong> Dividir tareas con tu pareja hace que todo dure la mitad del tiempo. Pongan música que les guste, cada uno con su tarea, y en 1.5-2 horas la casa queda lista. Es tiempo juntos disfrazado de tarea doméstica.</p>
+<p><strong>El movimiento cuenta:</strong> Barrer, trapear, limpiar — todo es actividad física real. Estás quemando calorías mientras organizas la casa. No es el gimnasio pero suma.</p>
+<p><strong>Organización para la semana:</strong> Aprovecha para dejar la ropa de la semana en orden, revisar qué hay en la nevera para planear comidas, y cualquier pendiente doméstico que acumulaste en la semana.</p>`
+  },
+  {
+    time:'12:00 PM', action:'🛒 Mercado o mandados', short:'Si toca salir, más pasos extra.',
+    detail:`<p><strong>El mercado como ejercicio:</strong> Cargar bolsas, caminar entre pasillos, subir escaleras si las hay — todo suma. Si van juntos al mercado, es otro momento de tiempo compartido y también de ejercicio encubierto.</p>
+<p><strong>Qué comprar pensando en la semana:</strong> Avena (para los desayunos), huevos (desayuno rápido y cena), frutas (banano para la avena, lo que les guste), proteína (pollo, atún en lata, carne para los almuerzos), verduras para ensaladas. Con esto la semana es más fácil.</p>
+<p><strong>Sin excesos en el mercado:</strong> Cuando tienes hambre en el mercado compras de más y cosas que no necesitas. Ve con el estómago lleno y con una lista.</p>`
+  },
+  {
+    time:'1:30 PM', action:'🍽️ Almuerzo', short:'Come bien. Es sábado. Pero sin triple carbohidrato.',
+    detail:`<p><strong>El almuerzo del sábado puede ser más completo:</strong> Es el fin de semana, disfrútalo. Pero "completo" no significa "excesivo". La fórmula sigue siendo proteína + 1 carbohidrato + verdura.</p>
+<p><strong>Si van a restaurante:</strong> Pide agua en vez de gaseosa (ahorras calorías vacías y dinero). Evita el exceso de fritos. Si hay opción de ensalada en vez de papas, tómala. Pequeñas decisiones que no arruinan el disfrute pero sí hacen diferencia.</p>
+<p><strong>Comer juntos:</strong> Este es uno de los pilares de una relación sana. Comer juntos sin pantallas, hablando, es uno de los hábitos más poderosos que existen para la conexión de pareja.</p>`
+  },
+  {
+    time:'Tarde', action:'😌 Tiempo libre con tu pareja', short:'Película, salir, descansar. Sin culpa.',
+    detail:`<p><strong>Este tiempo no tiene reglas:</strong> Película, serie, salir a donde quieran, visitar familia, no hacer absolutamente nada. Lo que decidan juntos.</p>
+<p><strong>La única sugerencia:</strong> Que no sea cada uno en su celular en el mismo cuarto. Si van a ver una película, véanla juntos. Si van a descansar, descansen juntos. La presencia compartida, aunque sea en silencio, es lo que construye la relación.</p>
+<p><strong>Puedes escuchar tu música:</strong> No hay nada de malo. Pero intenta que haya ratos del día sin ninguna pantalla — solo los dos, conversando o en silencio cómodo.</p>`,
+    hl:true
+  },
+  {
+    time:'6:00 PM', action:'⛪ Iglesia (si van hoy)', short:'Algunos sábados. Ajusta el almuerzo para llegar a tiempo.',
+    detail:`<p><strong>Cuando el plan incluye iglesia:</strong> Ajusta el almuerzo para terminar con tiempo suficiente. No vayas apresurado ni con el estómago vacío.</p>
+<p><strong>Es tiempo de los dos también:</strong> La iglesia con tu pareja es otro momento de vida compartida. Lo que practican juntos los une.</p>`
+  },
+  {
+    time:'8:00 PM', action:'🍵 Cena ligera juntos', short:'Algo fácil y rico. Sin comida pesada de noche.',
+    detail:`<p><strong>Opciones fáciles para el sábado en la noche:</strong> Sándwiches con lo que tengan, arepas con proteína, sopa caliente, huevos de alguna forma. No tiene que ser elaborado. Lo importante es cenar juntos, con calma, sin prisa.</p>
+<p><strong>Por qué ligero aunque sea sábado:</strong> Es tarde, el cuerpo no necesita mucha energía para dormir. La comida pesada de noche en fin de semana arruina el sueño y hace más difícil el lunes.</p>`
+  },
+  {
+    time:'10:30 PM', action:'😴 Dormir', short:'No mucho más tarde. Mañana domingo también importa.',
+    detail:`<p><strong>El sábado permite un poco más:</strong> Hasta las 11 PM está bien. Pero no más — el domingo necesitas energía para disfrutarlo y para preparar la semana. Y el domingo duermes a las 10 PM porque el lunes es a las 4:45 AM.</p>
+<p><strong>Rutina de sueño de fin de semana:</strong> Misma que entre semana — sin celular en la cama, cuarto oscuro, temperatura fresca. Tu cuerpo agradece la consistencia incluso los fines de semana.</p>`
+  },
+];
+
+const SCHED_DOM=[
+  {
+    time:'7:30 AM', action:'⏰ Despertar', short:'Sin prisa. Agua. Es domingo.',
+    detail:`<p><strong>El domingo empieza lento:</strong> Agua al despertar siempre. Pueden quedarse en cama un rato despiertos charlando, planeando el día, sin ninguna prisa. Este momento de mañana tranquila juntos en la cama es uno de los más valiosos de la semana.</p>
+<p><strong>Sin celular los primeros 20 minutos:</strong> Este domingo de descanso no debería empezar con notificaciones y noticias. 20 minutos de transición suave antes de tocar cualquier pantalla.</p>`
+  },
+  {
+    time:'8:00 AM', action:'🍳 Desayuno completo juntos', short:'El mejor desayuno de la semana. Prepárenlo juntos.',
+    detail:`<p><strong>El desayuno del domingo es especial:</strong> Tienen tiempo, no hay afán, pueden hacer algo más elaborado. Huevos como quieran, arepa, fruta, jugo natural, pan tostado. Lo que tengan y les guste.</p>
+<p><strong>Prepárenlo juntos:</strong> Uno hace los huevos, el otro exprime el jugo. Esta pequeña colaboración en la cocina es uno de los momentos de pareja más íntimos y cotidianos que existen. Aprovechen que tienen el tiempo.</p>
+<p><strong>Sin celular en la mesa:</strong> Como siempre. Pero el domingo esto tiene más valor porque tienen más tiempo para la conversación. ¿Qué planes tienen? ¿Qué les gustó de la semana? ¿Qué quieren hacer esta tarde?</p>`,
+    hl:true
+  },
+  {
+    time:'9:30 AM', action:'⛪ Iglesia (si van hoy)', short:'Algunos domingos. Ajusta el desayuno para llegar a tiempo.',
+    detail:`<p><strong>Cuando van el domingo:</strong> El desayuno un poco antes para tener tiempo de prepararse. Ir juntos, con calma, sin el estrés de correr.</p>
+<p><strong>El regreso de la iglesia:</strong> Buen momento para la caminata — si vuelven caminando o si dan una vuelta antes de llegar a casa.</p>`
+  },
+  {
+    time:'10:30 AM', action:'🚶 Actividad física con tu pareja', short:'Caminata, parque. Aunque sea 30 minutos.',
+    detail:`<p><strong>El movimiento del domingo:</strong> Aunque sea una caminata corta, moverse el domingo recarga el cuerpo para la semana. 30 minutos al sol con tu pareja es la mejor medicina.</p>
+<p><strong>Propónselo como plan:</strong> "¿Vamos a caminar un rato?" en vez de "tenemos que hacer ejercicio". El enfoque cambia cómo se siente.</p>
+<p><strong>Alternativas:</strong> Ciclovía, parque con juegos, ir caminando a algún lugar en vez de en transporte. Cualquier cosa que implique moverse.</p>`,
+    hl:true
+  },
+  {
+    time:'Tarde', action:'😌 Descanso real', short:'Película, música, no hacer nada. Está permitido y necesario.',
+    detail:`<p><strong>El descanso es productivo:</strong> El cuerpo y la mente necesitan tiempo sin hacer nada para recuperarse. El domingo en la tarde sin obligaciones es exactamente eso. No te sientas culpable por descansar — es parte del plan.</p>
+<p><strong>Con tu pareja:</strong> Película, escuchar música, charlar, dormir siesta. Lo que decidan. El objetivo es recargar juntos para enfrentar la semana.</p>`
+  },
+  {
+    time:'5:00 PM', action:'🥘 Preparar la semana', short:'Desayunos listos = semana sin estrés.',
+    detail:`<p><strong>La inversión de 15 minutos más valiosa del domingo:</strong> Prepara los desayunos de lunes y martes ahora. Dos frascos de avena en frío: avena + leche o agua + banano picado + miel. Tapa y a la nevera. O cocina 4 huevos duros. 15 minutos ahora = zero estrés el lunes y el martes a las 5 AM.</p>
+<p><strong>Tu pareja puede ayudar:</strong> Ella sabe que quieres mejorar. Pídele que te ayude con esto. "¿Me ayudas con los desayunos de la semana?" — probablemente diga que sí y además lo hagan más rápido.</p>
+<p><strong>Revisar la nevera:</strong> ¿Hay suficiente para la semana? ¿Hace falta algo para el mercado? Es mejor saberlo ahora que el martes en la noche con hambre.</p>`,
+    warn:true
+  },
+  {
+    time:'5:30 PM', action:'👔 Ropa de la semana lista', short:'Escoge lunes, martes y miércoles ahora.',
+    detail:`<p><strong>Por qué el domingo:</strong> A las 4:45 AM del lunes el cerebro no está operativo para decidir qué ropa ponerse. Si ya está todo listo y colgado, solo tomas lo que está ahí. Sin decisiones, sin estrés, sin tiempo perdido.</p>
+<p><strong>Qué preparar:</strong> Al menos lunes, martes y miércoles. La ropa completa — interior, medias, pantalón, camisa. Todo junto en perchas o en la silla designada.</p>
+<p><strong>Los zapatos:</strong> También listos. Nada de buscar los zapatos a las 5:20 AM.</p>`
+  },
+  {
+    time:'8:00 PM', action:'🍵 Cena muy ligera', short:'Lo más liviano posible. Mañana madrugada.',
+    detail:`<p><strong>La cena del domingo es la más liviana de todas:</strong> Comes a las 8 PM y duermes a las 10 PM. Mañana a las 4:45 AM. El estómago lleno de noche hace que el sueño sea más superficial y despertar sea más difícil.</p>
+<p><strong>Opciones:</strong> Sopa, ensalada con algo de proteína, una arepa con queso, fruta. Lo más simple posible. No es la última cena — mañana desayunas a las 5 AM.</p>`
+  },
+  {
+    time:'9:00 PM', action:'📋 Revisión semanal', short:'5 minutos. Qué cumplí, qué mejorar.',
+    detail:`<p><strong>Cómo hacer la revisión:</strong> Abre el tracker, mira los 7 días. ¿Cuál fue el día que más cumpliste? ¿Cuál fue el hábito que cumpliste todos los días? ¿Cuál no pudiste cumplir ningún día?</p>
+<p><strong>No para juzgarte:</strong> Para aprender. Si no pudiste dormir antes de las 10 PM ningún día, eso te dice que ese hábito necesita más atención o un cambio de estrategia. Si cumpliste el agua todos los días, eso ya es tuyo para siempre.</p>
+<p><strong>1 objetivo para la próxima semana:</strong> Escoge una sola cosa que quieras mejorar la próxima semana. Solo una. El enfoque en una cosa es más poderoso que intentar mejorar todo al mismo tiempo.</p>`
+  },
+  {
+    time:'9:30 PM', action:'📵 Sin pantallas', short:'Prepara el sueño. Habla con tu pareja.',
+    detail:`<p><strong>Los últimos 30 minutos antes de dormir:</strong> Sin celular, sin TV, sin ninguna pantalla. La luz azul a las 9:30 PM le dice al cerebro que es mediodía y frena la melatonina. Estos 30 minutos sin pantalla son la diferencia entre dormirse en 5 minutos y en 45 minutos.</p>
+<p><strong>Qué hacer:</strong> Hablar con tu pareja, escuchar música tranquila (sin pantalla), leer algo físico si tienes, o simplemente estar en silencio con la luz baja. Es descanso real.</p>`,
+    hl:true
+  },
+  {
+    time:'10:00 PM', action:'😴 Dormir', short:'⚠️ En 6h 45min suena la alarma del lunes.',
+    detail:`<p><strong>Este es el sueño más importante de la semana:</strong> El lunes a las 4:45 AM empieza de nuevo todo. Si duermes bien este domingo, el lunes es completamente diferente. Si duermes mal, la semana empieza cuesta arriba desde el primer minuto.</p>
+<p><strong>Técnica 4-7-8 para dormirse rápido:</strong> Inhala 4 segundos por la nariz, retén el aire 7 segundos, exhala lentamente por la boca durante 8 segundos. Repite 3-4 veces. Esta respiración activa el sistema nervioso parasimpático y apaga el estado de alerta en 2-3 minutos.</p>
+<p><strong>Con tu pareja:</strong> Si todavía están despiertos en la oscuridad, está bien charlar un momento. Pero pantallas ninguno de los dos — eso es acuerdo de pareja que vale la pena hacer.</p>`,
+    warn:true
+  },
+];
+
+/* ── MEALS ── */
+const MEALS_LAB=[
+  {
+    name:'Desayuno',time:'5:05 AM',
+    items:[
+      {food:'Opción A: Avena en frío + banano + miel',why:'Preparada la noche anterior. Lista en 0 minutos. Fibra + carbohidrato lento + energía sostenida hasta el almuerzo.'},
+      {food:'Opción B: Pan integral + huevo cocido + banano',why:'Huevo cocido la noche anterior. Pan integral da energía más estable que el pan blanco.'},
+      {food:'1 vaso de agua (mínimo)',why:'El segundo vaso del día. El cuerpo sigue deshidratado en la mañana.'},
+    ],
+    avoid:'Sin café antes de las 9 AM. Sin pan blanco todos los días. Sin azúcar extra añadida.'
+  },
+  {
+    name:'Almuerzo',time:'Al mediodía',
+    items:[
+      {food:'Proteína: pollo, carne, atún, huevo, fríjoles',why:'La base de cada almuerzo. Sin proteína el cuerpo no se recupera y el hambre vuelve en 1-2 horas.'},
+      {food:'1 carbohidrato: arroz O papa O plátano (uno solo)',why:'El triple carbohidrato genera pico de insulina → bajón de energía → sueño de almuerzo. Uno solo evita eso.'},
+      {food:'Vegetal: ensalada, brócoli, zanahoria, pepino',why:'Aunque sea poco. La fibra regula el azúcar en sangre y mejora la digestión.'},
+      {food:'Agua o jugo natural sin azúcar añadida',why:'Sin gaseosa. La gaseosa aporta 150-200 calorías vacías por vaso y no hidrata.'},
+    ],
+    avoid:'Gaseosa, triple carbohidrato (arroz+papa+plátano juntos), frituras todos los días, postres azucarados diarios.'
+  },
+  {
+    name:'Cena',time:'8:00 PM',
+    items:[
+      {food:'Opción A: 2 huevos revueltos + arepa',why:'10 minutos de preparación. Proteína completa. Suficiente para la noche.'},
+      {food:'Opción B: Sopa + atún en lata',why:'Hidratante, liviana, fácil. El atún agrega proteína sin esfuerzo.'},
+      {food:'Opción C: Ensalada con pollo o atún frío',why:'La más ligera. Perfecta antes de dormir.'},
+    ],
+    avoid:'Fritanga, bandeja completa, pasta con crema, comida pesada. El cuerpo no puede procesarla antes de dormir y engorda más de noche.'
+  },
+];
+
+const MEALS_FIN=[
+  {
+    name:'Desayuno',time:'7:30 AM',
+    items:[
+      {food:'Huevos como los quieran (revueltos, fritos, tibios)',why:'El fin de semana se disfruta. Los huevos son proteína completa en cualquier forma.'},
+      {food:'Arepa o pan integral',why:'Un carbohidrato está bien en el desayuno. Da energía para la mañana activa.'},
+      {food:'Fruta + jugo natural',why:'Vitaminas, hidratación y energía sin procesar. El mejor complemento.'},
+      {food:'Café después de desayunar (máximo 1)',why:'Con comida en el estómago, no en ayunas. Esta semana 3 sobres de azúcar máximo.'},
+    ],
+    avoid:'Café antes de desayunar. Exceso de azúcar. Saltarse el desayuno aunque sea fin de semana.'
+  },
+  {
+    name:'Almuerzo',time:'1:30 PM',
+    items:[
+      {food:'Comida completa y rica',why:'El fin de semana puede ser más abundante. Disfrútalo.'},
+      {food:'Proteína + 1 carbohidrato + verdura',why:'La fórmula sigue siendo la misma aunque sea sábado.'},
+      {food:'Agua o jugo natural',why:'Sin gaseosa aunque sea fin de semana. El hábito se construye consistencia.'},
+    ],
+    avoid:'Triple carbohidrato, exceso de fritos, gaseosas. El cuerpo no sabe que es fin de semana.'
+  },
+  {
+    name:'Cena',time:'8:00 PM',
+    items:[
+      {food:'Algo fácil y ligero',why:'Siempre liviana, fin de semana o no. Duermes 2 horas después.'},
+      {food:'Sopa, sándwich, arepa con proteína, ensalada',why:'Rápido de preparar y fácil de digerir antes de dormir.'},
+    ],
+    avoid:'Comida pesada de noche siempre. El cuerpo no la necesita para dormir y se acumula como grasa.'
+  },
+];
+
+/* ── EXERCISE ── */
+const STRETCH=[
+  {n:'01',title:'Círculos de cuello',desc:'Cabeza suelta, gira lentamente en círculos completos. 5 veces hacia la derecha, 5 hacia la izquierda. Muy lento — sientes cómo se sueltan las cervicales después de horas durmiendo.',time:'1 min'},
+  {n:'02',title:'Apertura de pecho',desc:'Entrelaza las manos detrás de la espalda, saca el pecho hacia adelante y mira al techo. Mantén 20 segundos. Esto contrarresta las horas encorvado frente al PC.',time:'30 seg'},
+  {n:'03',title:'Rotación de cintura',desc:'Manos en la cintura, pies separados al ancho de hombros. Gira el torso suavemente de lado a lado 10 veces. Sin forzar. Activa la zona lumbar que se agarrota durmiendo.',time:'1 min'},
+  {n:'04',title:'Estiramiento de isquiotibiales',desc:'Parado, inclínate hacia adelante intentando tocar los pies (no importa si no llegas). Mantén 20 segundos. Los isquiotibiales son los músculos más tensos en personas que trabajan sentadas.',time:'30 seg'},
+  {n:'05',title:'Cuádriceps de pie',desc:'Parado, dobla una rodilla y agarra el pie detrás de ti. Mantén 20 segundos por pierna. Si pierdes el equilibrio, apóyate en la pared.',time:'1 min'},
+  {n:'06',title:'Estocadas suaves',desc:'Un pie adelante, baja la rodilla trasera hacia el suelo suavemente. 5 repeticiones cada lado. Activa piernas y glúteos que se debilitan con tanto tiempo sentado.',time:'1.5 min'},
+  {n:'07',title:'Estiramiento lateral',desc:'Brazo derecho arriba, inclínate hacia la izquierda. Mantén 15 segundos. Cambia. Estira los costados y la espalda baja.',time:'30 seg'},
+  {n:'08',title:'Respiración 4-7-8 (cierre)',desc:'Inhala por la nariz 4 segundos, retén 7 segundos, exhala por la boca 8 segundos. Repite 3 veces. Esto activa el sistema nervioso y prepara la mente para el día.',time:'2 min'},
+];
+
+const EYE_CARE=[
+  {title:'🕐 Alarma cada hora',desc:'Pon una alarma recurrente en el PC o celular. Cuando suene: cierra los ojos completamente 60 segundos. No es opcional — es mantenimiento del músculo ocular igual que cualquier músculo del cuerpo.'},
+  {title:'📐 Regla 20-20-20',desc:'Cada 20 minutos mira algo a 6 metros de distancia durante 20 segundos. No tienes que levantarte — solo mira por la ventana, al pasillo o al fondo del cuarto. El músculo de enfoque se relaja instantáneamente.'},
+  {title:'💡 Filtro de luz azul siempre',desc:'Windows: Configuración → Pantalla → Luz nocturna → Activar y poner en horario 12 AM a 11:59 PM (o sea siempre). Mac: Sistema → Pantallas → Night Shift → Siempre. Hazlo ahora, antes de cerrar el tracker.'},
+  {title:'🔆 Brillo al 60-70%',desc:'El brillo alto al nivel de los ojos es una de las causas directas de la fatiga visual. Bájalo ahora. Si tienes que subir la cara al monitor para ver, el problema es la fuente pequeña — súbela, no el brillo.'},
+  {title:'🚌 Transmilenio de vuelta sin pantalla',desc:'Este es el descanso visual más valioso del día. 45-60 minutos con los ojos cerrados o mirando al horizonte. Llegarás a casa con menos dolor de cabeza y más energía. Solo requiere guardar el celular.'},
+  {title:'👓 Revisión de gafas',desc:'Si llevas más de 1 año sin cambiar los lentes, agenda cita con el oftalmólogo. Los lentes con filtro antirreflejo para pantalla hacen diferencia notable. Pregúntale específicamente por lentes para trabajo en PC.'},
+];
+
+/* ── CHECKLISTS ── */
+const CK_LAB=[
+  {id:'despertar',text:'Me levanté a las 4:45 AM',sub:'Sin celular como despertador. Agua inmediatamente al levantarme.',cat:'mañana'},
+  {id:'estira',text:'Hice los 8 estiramientos',sub:'10 minutos en el cuarto antes del desayuno. Con calma.',cat:'ejercicio'},
+  {id:'desayuno',text:'Desayuné antes de salir',sub:'Sentado, en 10 minutos. Sin correr. El desayuno estaba listo de anoche.',cat:'comida'},
+  {id:'agua',text:'Tomé 6 vasos de agua en el día',sub:'Al despertar, antes del almuerzo, durante el almuerzo, tarde, noche. Pon alarma si se te olvida.',cat:'hidratación'},
+  {id:'cafe',text:'Máximo 2 cafés — primer café a las 9 AM',sub:'Nunca en ayunas. Esta semana máximo 3 sobres de azúcar por café.',cat:'cafeína'},
+  {id:'ojos',text:'Pausas de ojos cada hora en el PC',sub:'1 minuto ojos cerrados. Más la regla 20-20-20. Alarma en el PC activa.',cat:'vista'},
+  {id:'caminar',text:'Caminé más de lo normal',sub:'Parada extra en Transmilenio, escaleras en el trabajo, 15 min caminata después del almuerzo.',cat:'ejercicio'},
+  {id:'almuerzo',text:'Almuerzo con un solo carbohidrato',sub:'Arroz O papa O plátano — solo uno. Siempre proteína + vegetal + agua.',cat:'comida'},
+  {id:'trans',text:'Transmilenio de vuelta sin celular',sub:'Ojos cerrados o mirando por la ventana. Descanso visual real.',cat:'vista'},
+  {id:'nopantalla',text:'45 min sin pantalla al llegar a casa',sub:'Transición trabajo-hogar. Cambiarme de ropa, saludar a mi pareja, respirar.',cat:'bienestar'},
+  {id:'cena',text:'Cena ligera antes de las 8:30 PM',sub:'Huevos, sopa, ensalada. Nada frito ni pesado de noche.',cat:'comida'},
+  {id:'prep',text:'Dejé el desayuno listo para mañana',sub:'Avena en el frasco en la nevera. O huevo cocido. 5 minutos de prep.',cat:'prep'},
+  {id:'dormir',text:'Dormí antes de las 10 PM',sub:'Sin celular en la cama. Técnica 4-7-8 si no podía dormir.',cat:'sueño'},
+];
+
+const CK_SAB=[
+  {id:'agua',text:'Tomé agua durante el día',sub:'Al menos 6 vasos. En fin de semana es más fácil olvidarlo.',cat:'hidratación'},
+  {id:'caminar',text:'Caminata de mínimo 30 minutos',sub:'Con mi pareja si quiso venir. Parque, ciclovía o el barrio. A buen ritmo.',cat:'ejercicio'},
+  {id:'desayuno',text:'Desayuno juntos sin celular en la mesa',sub:'El mejor momento del sábado. Presente con ella, hablando.',cat:'pareja'},
+  {id:'oficio',text:'Ayudé con el oficio de la casa',sub:'En equipo, con música. La casa limpia para la semana.',cat:'hogar'},
+  {id:'comida',text:'Comidas equilibradas sin excesos',sub:'Rico pero sin triple carbohidrato. Sin gaseosa.',cat:'comida'},
+  {id:'cafe',text:'Sin café o máximo 1',sub:'El fin de semana el sistema nervioso descansa de la cafeína.',cat:'cafeína'},
+  {id:'presente',text:'Tiempo de calidad con mi pareja',sub:'Sin cada uno en su celular. Presencia real.',cat:'pareja'},
+  {id:'dormir',text:'Dormí antes de las 11 PM',sub:'El fin de semana permite un poco más. Pero no mucho.',cat:'sueño'},
+];
+
+const CK_DOM=[
+  {id:'agua',text:'Tomé agua durante el día',sub:'Mínimo 6 vasos. Hidratación para empezar bien la semana.',cat:'hidratación'},
+  {id:'desayuno',text:'Desayuno completo juntos',sub:'El mejor desayuno de la semana. Preparado juntos. Sin celular en la mesa.',cat:'pareja'},
+  {id:'caminar',text:'Actividad física con mi pareja o solo',sub:'Caminata, parque, ciclovía. Al menos 30 minutos de movimiento.',cat:'ejercicio'},
+  {id:'prep',text:'Desayunos de lunes y martes listos',sub:'2 frascos de avena en frío en la nevera. O 4 huevos cocidos. 15 minutos.',cat:'prep'},
+  {id:'ropa',text:'Ropa de la semana lista',sub:'Lunes, martes, miércoles al menos. Todo junto en la silla o colgado.',cat:'prep'},
+  {id:'revision',text:'Revisé el checklist de la semana',sub:'Qué cumplí, qué me costó, 1 cosa a mejorar la próxima semana.',cat:'revisión'},
+  {id:'presente',text:'Tiempo de calidad con mi pareja',sub:'Descanso real juntos. Presencia sin pantallas de protagonistas.',cat:'pareja'},
+  {id:'dormir',text:'Dormí antes de las 10 PM',sub:'Mañana 4:45 AM. Este es el sueño más importante de la semana.',cat:'sueño'},
+];
+
+/* ═══════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════ */
+function load(){try{const s=localStorage.getItem('planV3');STATE=s?JSON.parse(s):{};}catch{STATE={};}}
+function save(){try{localStorage.setItem('planV3',JSON.stringify(STATE));}catch{}}
+
+function getChecks(id){
+  if(id==='sab') return CK_SAB;
+  if(id==='dom') return CK_DOM;
+  return CK_LAB;
+}
+function getSched(id){
+  if(id==='sab') return SCHED_SAB;
+  if(id==='dom') return SCHED_DOM;
+  return SCHED_LAB;
+}
+function getMeals(id){return(id==='sab'||id==='dom')?MEALS_FIN:MEALS_LAB;}
+
+function toggle(dayId,ckId){
+  if(!STATE[dayId])STATE[dayId]={};
+  STATE[dayId][ckId]=!STATE[dayId][ckId];
+  save();
+  renderChecks(dayId);
+  updateStats(dayId);
+  updateDots();
+}
+
+function score(dayId){
+  const checks=getChecks(dayId), ds=STATE[dayId]||{};
+  const done=checks.filter(c=>ds[c.id]).length;
+  return{done,total:checks.length};
+}
+
+function updateStats(dayId){
+  const{done,total}=score(dayId);
+  document.getElementById('sC').textContent=done;
+  document.getElementById('sT').textContent=total;
+  document.getElementById('sP').textContent=total?Math.round(done/total*100)+'%':'0%';
+  let streak=0;
+  for(let i=TODAY;i>=0;i--){
+    const s=score(DAYS[i].id);
+    if(s.total&&s.done/s.total>=0.6)streak++;
+    else break;
+  }
+  document.getElementById('sS').textContent=streak;
+  const ring=document.getElementById('ring-'+dayId);
+  if(ring){
+    const r=25,circ=2*Math.PI*r,pct=total?done/total:0;
+    ring.querySelector('.fill').style.strokeDashoffset=circ-(pct*circ);
+    ring.querySelector('.ring-txt').textContent=Math.round(pct*100)+'%';
+  }
+}
+
+function updateDots(){
+  DAYS.forEach((d,i)=>{
+    const dot=document.getElementById('dot-'+d.id);
+    if(!dot)return;
+    const{done,total}=score(d.id);
+    const pct=total?done/total:0;
+    dot.className='dot-c';
+    if(i===TODAY)dot.classList.add('today');
+    if(done>0){
+      if(pct>=0.8)dot.classList.add('good');
+      else if(pct>=0.5)dot.classList.add('ok');
+      else dot.classList.add('bad');
+    }
+    dot.textContent=done>0?Math.round(pct*100)+'%':(i===TODAY?'HOY':'--');
+  });
+}
+
+function renderChecks(dayId){
+  const el=document.getElementById('ck-'+dayId);
+  if(!el)return;
+  const checks=getChecks(dayId),ds=STATE[dayId]||{};
+  el.innerHTML=checks.map(c=>`
+    <div class="ck-item ${ds[c.id]?'done':''}" onclick="toggle('${dayId}','${c.id}')">
+      <div class="ck-box">${ds[c.id]?'✓':''}</div>
+      <div class="ck-bd">
+        <span class="ck-text">${c.text}</span>
+        <span class="ck-sub">${c.sub}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleBlock(id){
+  const exp=document.getElementById('exp-'+id);
+  const arr=document.getElementById('arr-'+id);
+  if(!exp)return;
+  exp.classList.toggle('open');
+  if(arr){arr.textContent=exp.classList.contains('open')?'▲':'▼';}
+}
+
+function switchDay(id){
+  document.querySelectorAll('.day-view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.getElementById('btn-'+id).classList.add('active');
+  updateStats(id);
+  renderChecks(id);
+}
+
+function resetAll(){
+  if(confirm('¿Reiniciar todos los checklists de la semana?')){
+    STATE={};save();
+    const a=document.querySelector('.nav-btn.active');
+    const id=a?a.dataset.id:DAYS[0].id;
+    renderChecks(id);updateStats(id);updateDots();
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   BUILD
+═══════════════════════════════════════════════ */
+function build(){
+  // dots
+  const dotsEl=document.getElementById('weekDots');
+  DAYS.forEach((d,i)=>{
+    dotsEl.innerHTML+=`
+      <div class="dot-wrap">
+        <span class="dot-lbl">${d.short}</span>
+        <div class="dot-c ${i===TODAY?'today':''}" id="dot-${d.id}" onclick="switchDay('${d.id}')">${i===TODAY?'HOY':'--'}</div>
+      </div>`;
+  });
+
+  // nav
+  const nav=document.getElementById('nav');
+  DAYS.forEach((d,i)=>{
+    const btn=document.createElement('button');
+    btn.className=`nav-btn ${d.type==='descanso'?'weekend':''} ${i===TODAY?'active':''}`;
+    btn.id='btn-'+d.id; btn.dataset.id=d.id; btn.textContent=d.short;
+    btn.onclick=()=>switchDay(d.id);
+    nav.appendChild(btn);
+  });
+
+  // views
+  const views=document.getElementById('views');
+  DAYS.forEach((d,i)=>{
+    const sched=getSched(d.id),meals=getMeals(d.id);
+    const isRest=d.type==='descanso';
+    const r=25,circ=2*Math.PI*r;
+
+    const foco=d.id==='sab'
+      ?'💑 El fin de semana es para los dos. Tu pareja te apoya — involúcrala en los hábitos. Los que se construyen en pareja duran más y son más fáciles de mantener. Caminen juntos, cocinen juntos, descansen juntos.'
+      :d.id==='dom'
+      ?'⚠️ El domingo es el día más importante de la semana. Los desayunos listos, la ropa lista y dormir a las 10 PM determinan cómo arranca el lunes a las 4:45 AM. Lo que hagas hoy lo sientes mañana.'
+      :'⚡ Los 3 hábitos con más impacto esta semana: (1) dormir antes de las 10 PM, (2) filtro de luz azul en el PC activado hoy mismo, (3) primer café a las 9 AM — no en ayunas. El ojo que palpita y la nariz tapada mejoran en 2 semanas con esto.';
+
+    const v=document.createElement('div');
+    v.className=`day-view ${i===TODAY?'active':''}`;
+    v.id='view-'+d.id;
+
+    const schedHTML=sched.map((b,bi)=>{
+      const uid=d.id+'-'+bi;
+      return`
+        <div class="tblock ${b.hl?'hl':''} ${b.warn?'warn':''}">
+          <div class="tblock-top" onclick="toggleBlock('${uid}')">
+            <div class="t-time-col"><div class="t-time">${b.time}</div></div>
+            <div class="t-main">
+              <div class="t-action">${b.action}</div>
+              <div class="t-short">${b.short}</div>
             </div>
+            <div class="t-arrow" id="arr-${uid}">▼</div>
+          </div>
+          <div class="t-expand" id="exp-${uid}">${b.detail||''}</div>
+        </div>`;
+    }).join('');
+
+    v.innerHTML=`
+      <div class="day-hdr">
+        <div class="day-title">${d.label}</div>
+        <div class="day-badge ${isRest?'rest':''}">${isRest?'DESCANSO':'LABORAL'}</div>
+        <div class="ring-wrap" id="ring-${d.id}">
+          <svg width="58" height="58">
+            <circle cx="29" cy="29" r="${r}" fill="none" stroke="var(--border)" stroke-width="4"/>
+            <circle class="fill" cx="29" cy="29" r="${r}" fill="none" stroke="var(--accent)" stroke-width="4"
+              stroke-dasharray="${circ}" stroke-dashoffset="${circ}" stroke-linecap="round" style="transition:stroke-dashoffset 0.5s ease;"/>
+          </svg>
+          <div class="ring-txt">0%</div>
         </div>
-    </section>
+      </div>
 
-    <footer>
-        <p>&copy; 2024 Optinet Systems SAS. Todos los derechos reservados.</p>
-    </footer>
+      <div class="info-box ${isRest?'purple':'green'}">
+        <div class="info-lbl">${isRest?'💡 Este fin de semana':'⚡ Foco de la semana'}</div>
+        <div class="info-txt">${foco}</div>
+      </div>
 
+      <!-- HORARIO -->
+      <div class="section">
+        <div class="sec-hdr">Horario — toca cada bloque para ver la explicación</div>
+        <div class="timeline">${schedHTML}</div>
+      </div>
+
+      <!-- ALIMENTACIÓN -->
+      <div class="section">
+        <div class="sec-hdr">Alimentación del día</div>
+        <div class="meals-grid">
+          ${meals.map(m=>`
+            <div class="meal-card">
+              <div class="meal-nm">${m.name}</div>
+              <div class="meal-tm">${m.time}</div>
+              ${m.items.map(item=>`
+                <div class="meal-row">
+                  <div class="meal-food">${item.food}</div>
+                  <div class="meal-why">→ ${item.why}</div>
+                </div>
+              `).join('')}
+              <div class="meal-avoid">⚠️ Evitar: ${m.avoid}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- EJERCICIO -->
+      ${!isRest?`
+      <div class="section">
+        <div class="sec-hdr">Estiramiento mañanero — 4:50 AM (10 min)</div>
+        <div class="info-box blue">
+          <div class="info-lbl">¿Por qué estirarse tan temprano?</div>
+          <div class="info-txt">Después de 6-7 horas durmiendo los músculos están rígidos y la sangre se ha movido poco. El estiramiento activa la circulación, despierta el cuerpo gentilmente, mejora la postura para el día de PC y reduce dolores de espalda y cuello. No necesitas ropa especial ni tapete — en pijama, en el cuarto, sin hacer ruido.</div>
+        </div>
+        <div class="ex-list">
+          ${STRETCH.map(s=>`
+            <div class="ex-row">
+              <div class="ex-n">${s.n}</div>
+              <div class="ex-b">
+                <div class="ex-t">${s.title}</div>
+                <div class="ex-d">${s.desc}</div>
+                <div class="ex-tm">⏱ ${s.time}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`:`
+      <div class="section">
+        <div class="sec-hdr">Caminata del fin de semana</div>
+        <div class="info-box blue">
+          <div class="info-lbl">🚶 Sin gimnasio, sin excusas</div>
+          <div class="info-txt">No necesitas ir al gimnasio todavía. Una caminata de 30-45 minutos a buen ritmo quema entre 200-300 calorías, activa el metabolismo, mejora el humor y fortalece el corazón. Caminar con tu pareja hace que no se sienta como ejercicio — se siente como un plan.</div>
+        </div>
+        <div class="ex-list">
+          <div class="ex-row"><div class="ex-n">01</div><div class="ex-b"><div class="ex-t">Calentamiento — 5 min</div><div class="ex-d">Camina lento los primeros 5 minutos. Haz círculos de brazos mientras caminas. Levanta las rodillas un poco más de lo normal. Esto prepara articulaciones y músculos para el ritmo.</div><div class="ex-tm">⏱ 5 min</div></div></div>
+          <div class="ex-row"><div class="ex-n">02</div><div class="ex-b"><div class="ex-t">Ritmo sostenido — 20-30 min</div><div class="ex-d">Camina a un ritmo donde puedas hablar pero no cantar una canción. Con tu pareja deben poder conversar fluidamente. Si estás solo, música que te active. Este es el bloque principal del ejercicio.</div><div class="ex-tm">⏱ 20-30 min</div></div></div>
+          <div class="ex-row"><div class="ex-n">03</div><div class="ex-b"><div class="ex-t">Esfuerzo corto — 5 min (opcional)</div><div class="ex-d">Si quieres subirle, acelera 5 minutos al ritmo más rápido que puedas sostener sin correr. Esto activa el metabolismo de forma diferente y quema más calorías en menos tiempo.</div><div class="ex-tm">⏱ 5 min opcional</div></div></div>
+          <div class="ex-row"><div class="ex-n">04</div><div class="ex-b"><div class="ex-t">Enfriamiento — 5 min</div><div class="ex-d">Vuelve al ritmo lento. Respira profundo. Estira las piernas un momento al llegar. Toma agua apenas llegues a casa. No te sientes inmediatamente — camina lento unos minutos más.</div><div class="ex-tm">⏱ 5 min</div></div></div>
+        </div>
+      </div>`}
+
+      <!-- OJOS -->
+      <div class="section">
+        <div class="sec-hdr">Protocolo de ojos y pantalla</div>
+        <div class="info-box orange">
+          <div class="info-lbl">⚠️ Por qué palpita tu ojo y cómo pararlo</div>
+          <div class="info-txt">Lo que sientes se llama mioquimia palpebral — una contracción involuntaria del músculo del párpado. Causas directas en tu caso: 8-9 horas de pantalla al día + exceso de cafeína + falta de sueño. No es grave pero es una señal de alerta que el cuerpo te está mandando. Las siguientes acciones atacan directamente las tres causas.</div>
+        </div>
+        <div class="eye-grid">
+          ${EYE_CARE.map(e=>`
+            <div class="eye-card">
+              <div class="eye-t">${e.title}</div>
+              <div class="eye-d">${e.desc}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- CHECKLIST -->
+      <div class="section">
+        <div class="sec-hdr">Checklist — marca al final del día</div>
+        <div class="info-box green">
+          <div class="info-lbl">💡 Cómo usar el checklist</div>
+          <div class="info-txt">No lo mires en la mañana. Vive el día, sigue el horario, y al final del día (9:45 PM) abre el tracker y marca honestamente lo que hiciste. No te juzgues por lo que no completaste — solo márcalo. Con el tiempo el patrón te dice qué hábitos necesitan más atención.</div>
+        </div>
+        <div class="checklist" id="ck-${d.id}"></div>
+      </div>
+    `;
+    views.appendChild(v);
+  });
+}
+
+load();
+build();
+DAYS.forEach(d=>renderChecks(d.id));
+updateDots();
+updateStats(DAYS[TODAY]?DAYS[TODAY].id:DAYS[0].id);
+</script>
 </body>
 </html>
